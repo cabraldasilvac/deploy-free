@@ -6,17 +6,17 @@ app.use(express.json())
 
 const port = process.env.PORT ?? 4000
 
-app.get('/books', async (req, res) => {
+app.get('/books', async (request, response) => {
     try {
         const books = await prismaClient.book.findMany()
-        return res.json(books)
+        return response.json(books)
     } catch (error) {
-        return res.status(500).json({ error: 'An error occurred while fetching books' })
+        return response.status(500).json({ error: 'An error occurred while fetching books' })
     }
 })
 
-app.post('/books', async (req, res) => {
-    const { description, name } = req.body
+app.post('/books', async (request, response) => {
+    const { description, name } = request.body
     try {
         const book = await prismaClient.book.create({
             data: {
@@ -24,9 +24,9 @@ app.post('/books', async (req, res) => {
                 name,
             },
         })
-        return res.json(book)
+        return response.json(book)
     } catch (error) {
-        return res.status(500).json({ error: 'An error occurred while creating the book' })
+        return response.status(500).json({ error: 'An error occurred while creating the book' })
     }
 })
 
